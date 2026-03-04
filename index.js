@@ -1,7 +1,13 @@
 const { Client, GatewayIntentBits, Events } = require('discord.js');
 require('dotenv').config();
+const express = require('express');
 
-// Criar cliente do bot
+const app = express();
+
+// ==============================
+// CRIAR CLIENTE DO BOT
+// ==============================
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -11,12 +17,18 @@ const client = new Client({
   ]
 });
 
-// Quando o bot iniciar
+// ==============================
+// BOT PRONTO
+// ==============================
+
 client.once(Events.ClientReady, () => {
   console.log(`Bot online! Logado como ${client.user.tag}`);
 });
 
-// Comandos simples
+// ==============================
+// COMANDOS
+// ==============================
+
 client.on(Events.MessageCreate, message => {
 
   if (message.author.bot) return;
@@ -27,23 +39,22 @@ client.on(Events.MessageCreate, message => {
 
 });
 
-// Login do bot
+// ==============================
+// LOGIN BOT
+// ==============================
+
 client.login(process.env.DISCORD_TOKEN);
 
-
 // ==============================
-// SERVIDOR WEB PARA RAILWAY
+// SERVIDOR WEB (PARA RAILWAY)
 // ==============================
-
-const express = require("express");
-const app = express();
 
 app.get("/", (req, res) => {
-  res.send("DRIKA SOLUTIONS BOT ONLINE");
+  res.send("DRIKA SOLUTIONS BOT ONLINE 🚀");
 });
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor web ativo na porta ${PORT}`);
 });
