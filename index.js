@@ -1,27 +1,25 @@
-const { Client, GatewayIntentBits, Events } = require('discord.js');
 require('dotenv').config();
+const { Client, GatewayIntentBits } = require('discord.js');
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers
   ]
 });
 
-client.once(Events.ClientReady, () => {
-  console.log('Bot online!');
+client.on('ready', () => {
+  console.log(`Bot online! Logado como ${client.user.tag}`);
 });
 
-client.on(Events.MessageCreate, message => {
+client.on('messageCreate', message => {
+  if (message.author.bot) return;
 
-  if(message.author.bot) return;
-
-  if(message.content === "!ping"){
+  if (message.content === "!ping") {
     message.reply("pong");
   }
-
 });
 
 client.login(process.env.DISCORD_TOKEN);
